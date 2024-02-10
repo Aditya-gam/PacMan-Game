@@ -533,6 +533,12 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
+         # Create a problem instance around the current state
+        problem = AnyFoodSearchProblem(gameState)
+
+        # Use a search algorithm to solve the problem
+        # In this case, breadth-first search is a good choice for finding the shortest path
+        return search.breadthFirstSearch(problem)
         util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -569,6 +575,9 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
+        x, y = state
+        return self.food[x][y]
+
         util.raiseNotDefined()
 
 def mazeDistance(point1, point2, gameState):
