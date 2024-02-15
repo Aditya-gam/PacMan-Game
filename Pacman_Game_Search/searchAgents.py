@@ -455,7 +455,7 @@ class AStarFoodSearchAgent(SearchAgent):
 def foodHeuristic(state, problem):
     """
     Your heuristic for the FoodSearchProblem goes here.
-
+    
     This heuristic must be consistent to ensure correctness.  First, try to come
     up with an admissible heuristic; almost all admissible heuristics will be
     consistent as well.
@@ -481,25 +481,22 @@ def foodHeuristic(state, problem):
     problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
-    "*** YOUR CODE HERE ***"
     foodList = foodGrid.asList()
+
+    # If no food left, return 0
     if not foodList:
         return 0
 
-    # Pre-compute and store maze distances if not already done
-    if 'distances' not in problem.heuristicInfo:
-        problem.heuristicInfo['distances'] = {}
-        for food in foodList:
-            # Assuming mazeDistance is a function to compute the maze distance
-            problem.heuristicInfo['distances'][food] = mazeDistance(position, food, problem.startingGameState)
-
     maxDistance = 0
-    for food in foodList:
-        distance = problem.heuristicInfo['distances'].get(food)
-        if distance is None:
-            # Recompute if not found (for dynamic scenarios)
-            distance = mazeDistance(position, food, problem.startingGameState)
-            problem.heuristicInfo['distances'][food] = distance
+    for food_position in foodList:
+        key = (position, food_position)  # Using tuple (position, food) as key
+
+        if key in problem.heuristicInfo:
+            distance = problem.heuristicInfo[key]
+        else:
+            distance = mazeDistance(position, food_position, problem.startingGameState)
+            problem.heuristicInfo[key] = distance
+
         maxDistance = max(maxDistance, distance)
 
     return maxDistance
